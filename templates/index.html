@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+     <link rel="stylesheet" href="{{url_for('static', filename='css/uikit.css') }}" />
+    <script src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{url_for('static', filename='js/uikit.min.js') }}"></script>
+	<script src="{{url_for('static', filename='js/pagination.min.js') }}"></script>
+    <title></title>
+</head>
+<body>
+<div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom" >
+    {% for message in get_flashed_messages() %}
+    <div class="uk-alert" >
+        <p>{{ message }}</p>
+    </div>
+    {% endfor %}
+
+    <h2 style="margin-top: 1cm">上传文件</h2>
+    <form method="post" action="upload" enctype="multipart/form-data" class="dropz">
+        <p>
+            <label>文件</label>
+            <input type="file" id="file" name="file">
+        </p>
+        <input type="submit" value="提交">
+    </form>
+</div>
+<div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+    <div class="uk-overflow-container">
+        <table class="uk-table uk-table-striped">
+            <thead>
+            <tr>
+                <th>文件名</th>
+                <th>大小</th>
+                <th>上传时间</th>
+                <th>下载</th>
+                <th>删除</th>
+                <th>打印</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td>{{file.name}}</td>
+                    <td>{{file.size}} bytes</td>
+                    <td>{{file.ctime}}</td>
+                    <td><a href="{{file.url}}">下载</a></td>
+                    <td><a href="{{file.delete_url}}">删除</a></td>
+                    <td><a href="{{file.prt_url}}">打印</a></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>None</td>
+                    <td>None</td>
+                    <td>None</td>
+                    <td>None</td>
+                    <td>None</td>
+                    <td>None</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2 style="margin-top: 1cm">文本</h2>
+        <form method="post" action="text" enctype="multipart/form-data" class="dropz">
+            <p>
+                <textarea cols="80" rows="5"  id="text" name="text">
+                </textarea>
+            </p>
+            <input type="submit" value="提交">
+        </form>
+    </div>
+    <br>
+    <div>
+        {% for text in texts %}
+        <p>{{ text }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
